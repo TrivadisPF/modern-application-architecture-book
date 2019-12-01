@@ -1,0 +1,81 @@
+== 12 Factor App
+
+Published by Heroku in 2012, the 12-Factor App Manifesto is a set of guidelines and best practices for building and maintaining scalable, maintainable, and portable applications.
+
+Although these principles were originally created for the Heroku Cloud Platform, they now apply to the successful implementation of Microservices architectures as well as cloud-native applications.
+
+### Codebase
+
+All source code must be checked into a version control system with one repository per application or Microservice; this helps with both deployment and governance.
+
+### Dependencies
+
+Each Microservice should explicitly identify, declare and isolate its dependencies. System-wide dependencies should never be used.
+
+For example, when using  `Java`, the dependencies in Maven are described via the `pom.xml` or in Gradle via the `build.gradle` file.
+
+### Configuration
+
+The configuration of a Microservice should not be available in the code (hardcoded) but via environment variables or its own dedicated configuration database.
+
+There should be a strict separation between code and configuration. The code should not contain anything that is specific for a certain environment on which the Microservice is rolled out.
+
+All environment specifics should result from external configurations.
+
+### Backing services
+
+Backing services such as databases, message brokers, caches and other services should be easily interchangeable.
+Dependencies change and evolve not only as the environment changes, but often as the project progresses. For example if the cloud storage provider is changed, the impact on the project should not be important.
+
+Therefore, such services should be treated as attached resources so that the code ultimately makes no difference between internal and external services.
+
+
+### Build, Run, Release
+
+A 12 factor app requires a strict separation between the build, run and release phases. Changes to the code at runtime are to be avoided.
+Each release should always have a unique release number and it should be possible to roll back a release. Automation and administration of the system should be as simple as possible; builds should run automatically when new code is added to version control.
+
+
+### Stateless process
+
+Services should be as stateless as possible, applications should act as a single, stateless process.
+Stateless processes make 12 factor apps more stable and as a result, the application as a whole is not dependent on whether a particular process fails (should it happen the application continues to run and access another resource).
+This approach increases scalability which is key concept in a Microservices architecture.
+
+
+### Port Binding
+
+Each application must be completely accessible via URL which is standard for web applications.
+In the 12 factor concept, however, this applies to all services including APIs. Other services should be able to treat the application as a resource.
+A 12 factor app is *completely independent*.
+
+### Concurrency
+
+Small processes can be combined or operated individually.
+In this model, the approach is clear: All processes run individually and can therefore be started, terminated or scaled individually.
+This makes it possible, for example, to easily integrate new servers and make optimum use of the CPU.
+
+### Availability
+
+Because processes are operated individually, they can be started and stopped quickly.
+After an update the app is almost immediately available again. Furthermore, 12 Factor applications should be as robust as possible when it comes to restarting after crashes.
+
+### Dev-Prod Parity
+
+The development and production environment should be as similar as possible.
+This avoids the famous "it works on my machine !" problem. If the environments are the same, test scenarios can be more easily translated into reality, so fewer errors occur.
+
+### Logs
+
+Logs provide information about problems with the code, this information is vital to the application lifecycle.
+A separate service should be used to ensure that these logs are stored correctly.
+It is not the job of the running code to be monitored (cross-cutting concerns principle).
+#Internal errors could also damage log files in this case. External services should therefore be used for this purpose.#
+
+### Admin Processes
+///
+Check translation
+One-Off-Admin-Tasks sammeln wichtige Daten über das reale Verhalten einer Anwendung. Darum ist es wichtig, sie in der Produktions-Umgebung laufen zu lassen, nicht in der Entwicklungs-Umgebung oder mit einer veralteten Version des Codes. Ansonsten sind die ausgegebenen Daten nur schwer auf die real beobachteten Anwendungs-Probleme übertragbar.
+///
+#Admin tasks# collect important data about the real behavior of an application. Therefore, it is important to run them in the production environment rather than in the development environment or with an outdated version of the code.
+Otherwise, the collected data will be difficult to translate to the application problems actually observed.
