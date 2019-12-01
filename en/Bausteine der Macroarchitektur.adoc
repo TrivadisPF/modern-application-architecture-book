@@ -1,49 +1,48 @@
-# Bausteine der Makroarchitektur
+= Building blocks of the macro architecture
 
-## Microservice Platform
 
-### Config Store
+== Microservice Platform
 
-## Service Routing
+=== Config Store
 
-### Load Balancing
+== Service Routing
 
-### Self Healing
+=== Load Balancing
 
-### Auto Scale
+=== Self Healing
 
-### Microservice Execution
+=== Auto Scale
 
-## Backing Services
+=== Microservice Execution
 
-### Persistence
+== Backing Services
 
-#### RDBMS 
+=== Persistence
 
-#### NoSQL
+==== RDBMS
 
-#### Object Store / Distributed File System (DFS)
+==== NoSQL
 
-#### Message Broker
+==== Object Store / Distributed File System (DFS)
 
-#### Event Hub / Event Bus
+==== Message Broker
+
+==== Event Hub / Event Bus
 
 An event bus is a conduit for the events generated. Typically they are backed by a messaging topic so that you get the publish subscribe semantics over this conduit.
 
-#### Event Store
+==== Event Store
 
 Event stores usually store changes applied to an entity. By replaying the changes, it is possible to resurrect the state of an entity to any point in history. Event stores may also make use of a database to store state change audit trails.
 
-## Dev/Ops Automation
+== Dev/Ops Automation
 
-### Build Automation
+=== Build Automation
 
-### Test Automation
+=== Test Automation
 
-### Image Repository
+=== Image Repository
 
-### Deployment Automation
+=== Deployment Automation
 
-### Platform Automation
-
-
+=== Platform Automation

@@ -73,9 +73,10 @@ It is not the job of the running code to be monitored (cross-cutting concerns pr
 #Internal errors could also damage log files in this case. External services should therefore be used for this purpose.#
 
 ### Admin Processes
-///
+////
 Check translation
 One-Off-Admin-Tasks sammeln wichtige Daten über das reale Verhalten einer Anwendung. Darum ist es wichtig, sie in der Produktions-Umgebung laufen zu lassen, nicht in der Entwicklungs-Umgebung oder mit einer veralteten Version des Codes. Ansonsten sind die ausgegebenen Daten nur schwer auf die real beobachteten Anwendungs-Probleme übertragbar.
-///
+////
+
 #Admin tasks# collect important data about the real behavior of an application. Therefore, it is important to run them in the production environment rather than in the development environment or with an outdated version of the code.
 Otherwise, the collected data will be difficult to translate to the application problems actually observed.
