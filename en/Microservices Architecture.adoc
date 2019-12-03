@@ -1,36 +1,65 @@
-# Microservices Architecture
+== Microservices Architecture
 
-## Zwei Architecture Viewpoints
+=== Two Architecture Viewpoints
 
-* **Die Mikro Architektur (auch Inner Architecture genannt):** Die Software Architektur von einem individuellen Microservices und was er nach Aussen exponiert. Wird durch die DevOps Teams definiert, die die Services entwickeln, ausliefern und betreiben. 
-* **Die Makro Architektur (auch Outer Architecture genannt):** Die Architektur der Microservices Infrastruktur, die eine verteilte Betriebs- und Management-Platform zur Verfügung stellt, auf die die Services ausgerollt und ausgeführt werden. Wird vom Platform Ops Team definiert, ausgerollt und betrieben und unterstützt damit die Arbeit der DevOps Teams. 
+*The micro architecture (also called Inner Architecture):* The software architecture of an individual micro service and what it exposes to the outside world.  Defined by the DevOps teams that develop, deliver and operate the services.
 
-    
-### Makro Architektur
+*The Macro Architecture (also called Outer Architecture):* The architecture of the Microservices infrastructure that provides a distributed operational and management platform on which the services are rolled out and executed. Defined, rolled out and operated by the Platform Ops team, supporting the work of the DevOps teams.
 
-Aufgrund der Inversionf of Architecture, die
+==== Macro Architecture
 
-I mentioned that due to the Inversion of Architecture, many of the concerns that used to be solved at the inner architecture level of the monolith have now become the outer architecture concerns. Figure 4-14 attempts to show schematically the concerns we need to address at the outer architecture level of a microservice. Microservices interact with each other and this chattiness between process spaces increases the overall complexity. Concerns like fault tolerance, graceful retry, and alternate code execution are few among them and this necessitates strong management, monitoring, and control of microservices at its outer architecture level. The goal is to achieve agility of delivery, flexibility of deployment, and the precision of scalability in a microservices architecture. In order to do this, a new set of concerns must be addressed and this increases the complexity of microservices manyfold compared to that of a monolith.
+Due to the Inversion of Architecture, many of the concerns that used to be solved at the inner architecture level of the monolith now have become the outer architecture concerns.
+Figure 1 attempts to show schematically the concerns we need to address at the outer architecture level of a Microservice.
+Microservices interact with each other and this chattiness between process spaces increases the overall complexity. Concerns like fault tolerance, graceful retry, and alternate code execution are few among them and this necessitates strong management, monitoring, and control of Microservices at its outer architecture level.
 
-
-### Mikro Architektur
-   
-The examples of different inner architectures shown in Figure 9 are not exhaustive, but show some of the most common patterns:
-
-* **Basic logic:** Dieser Microservices ist zustandslos und braucht keinen Persistenzdienst. Diese Art von Service wird genutzt um rechenintensive Jobs durchzuführen, wie z.B. eine Berechung einer Steuer oder eines Discounts. Die Berechnung basiert dabei vollständig auf den Parameter, die über das Microservices API übertragen werden. 
-
-* **Basic persistence:** Dieser Microservice hat seine eigene, gekapselte Persistenz. Wenn die Daten in der Persistenz ändern, dann werden Events publiziert, die andere Services über die Änderung informieren. Der Persistenzmechanismus gehört dem Service und wird von den unterschiedlichen Service Instanzen gemeinsam genutzt. Dies erlaubt es den Service Implementationen zustandslos zu sein.  
-
-* **Externalized persistence:** Dieser Microservice nutzt einen externen Service für die Persistenz. Dies könnte ein anderer Microservice mit Peristenzmöglichkieten sein, oder aber ein dedizierter Persistenzservice, der Teil der Platform Infrastruktur ist (z.B. eine NoSQL Datastore oder ein RDBMS). Wenn ein dedizierter Data Persistenz Service genutzt wird, ist es wichtig, dass dieser eine Isolation der Daten ermöglicht, die der Service besitzt.  
-
-* **Command Query Responsibility Segregation (CQRS):** Diese Art von Microservice optimiert die Implementierung eines einzelnen Microservices auf unterschiedliche nicht-funktionale Anforderungen für das Read und Write Verhalten. Das Interface des Service ist aufgeteilt in Kommandos, die den Status von Daten verändern und Abfragen die nur lesend auf die Daten zugreifen. Dieses Pattern eignet sich vor allem dann, wenn es signifikante Unterschiede bei den Performance- bzw. Kapazitätsanforderungen zwischen lesenden und schreibenden Operationen gibt. Da die Service Implementation zweigeteilt ist, ist die Datenmodellierung, die unterliegende Persistenztechnologie und die Anzahl Instanzen für die Abfragen unabhängig von der Implementation der Kommandos, bzw. der schreibenden Operationen. 
-
-* **Event handler:** Dieser Microcservice wird ausschliesslich durch einen Event im Event Hub getriggert. Skalierbarkeit wird über das Pattern "competing consumers" gegen eine gemeinsam genutzte Subscription erreicht. Der Microservice kann auch neue Event erzeugen und in den Event Hub publizieren, um andere Services über seinen Zustand zu informieren.
+The goal is to achieve agility of delivery, flexibility of deployment, and the precision of scalability in a Microservices architecture. In order to do this, a new set of concerns must be addressed and this increases the complexity of Microservices manyfold compared to that of a monolith.
 
 
-![Inner Architecture](image/ms-inner-architecture.png)
 
-         
+[#macro-architecture]
+[.text-center]
+.Macro Architecture
+image::image/macro-architecture.png[Macro architecture, align=center, title-align=center]
 
 
- 
+==== Micro Architecture
+
+The examples of different inner architectures shown in Figure 2 are not exhaustive, but show some of the most common patterns:
+
+[#micro-architecture]
+[.text-center]
+.Micro Architecture
+image::image/ms-inner-architecture.png[Micro architecture, align=center, title-align=center]
+
+
+
+*Basic logic:* These Microservices are stateless and does not need a
+persistence service. This type of service is used to perform
+calculation-intensive jobs, such as calculating a tax or a discount. The
+calculation is completely based on the parameters transmitted via the
+Microservices API.
+
+*Basic persistence:* These Microservices have their own encapsulated
+persistence. If the data in the persistence changes, then events are
+published that inform other services about the change. The persistence
+mechanism belongs to the service and is shared by the different service
+instances. This allows the service implementations to be stateless.
+
+*Externalized persistence:* These Microservices use an external service
+for persistence. This could be another Microservice with persistence
+capabilities, or a dedicated persistence service that is part of the
+platform infrastructure (e.g. a NoSQL datastore or RDBMS). If a
+dedicated Data Persistence Service is used, it is important that it
+allows isolation of the data the service possesses.
+
+
+*Command Query Responsibility Segregation (CQRS):* These Microservices optimize the implementation of Read and Write operations.
+The core idea of this pattern is the notion that you can use a different model to read information than to update information.
+This architecture allows to separate the load between Read/Write operations and thus permitting to scale each one independently.
+This pattern is particularly useful if your application sees a big disparity between Read and Write loads and since the service implementation is divided into two parts, different optimization techniques can be applied to both sides : for example different database strategies for Read and Write operations.
+
+
+
+*Event handler:* These Microservices are controlled by events in the event hub.
+The Microservice can also create new events and add them to the event hub to inform other services about its state to or APM tools.
+Scalability is controlled by the Pattern ``competing consumers`` against a shared subscription.
