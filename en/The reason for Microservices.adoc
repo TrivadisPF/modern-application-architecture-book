@@ -1,0 +1,82 @@
+== Microservices
+
+=== Definition
+
+_Microservices are independently deployable modules_
+
+=== What is a Microservice
+
+Microservices are characterized by the fact that each service is, individually, only a small roughly self-contained part of the application.
+
+Ideally, a Microservice is independent, expandable, interchangeable and scalable, even from a technological point a single service is much easier to maintain than a monolith. Properly implemented the application should work even when a service is not available.
+
+It seems that Microservices bring a lot of benefits however a Microservice seldom comes alone. The complexity of the application shifts to the correct interaction between the services.
+
+So how must the services to be #cut# to the match the aforementioned listed conditions (independently expandable, interchangeable and scalable) - in a Microservices based highly distributed architecture?
+
+
+=== Key properties of a Microservice
+
+* **Only one task :** Each Microservice should only be responsible for one task (capability), ideally this should be a specific task, but a Microservice could also handle technical tasks (e.g. integration of a peripheral system).
+
+* **Microservice owns its data (if it manages any) :** This does not mean, however, that the Microservices must have its own database instance however a clear scope separation should exist (for example on a table or namespace level or even a dedicated instance). This leads to better decoupling, since other services can access the data that they do not possess via the interfaces.
+
+* **Responsible for choreography and collaboration:** The Microservices are responsible for the orchestration and communication between each other and not the messaging platform.
+
+* **Can be shipped independently :** Any Microservice can shipped/deployed independently, without this, a Microservice application remains a monolith.
+
+* **Can be individually replaced :** The scope of a Microservice should be be manageable by any team member and if necessary recreated and replaced within a small timeframe (approx. 1 month).
+
+* **Within a bounded context:** A Microservice should be implemented within a bounded context in the sense of Domain Driven Design.
+
+* **Responsible to a team: ** A Microservice is always developed and operated by a team.
+
+* **Good isolation:** Microservices are as isolated as possible from the other services.
+
+* **Using the technology stack that fits best.**  A Microservice should use the technology stack that better fits its requirements.
+
+
+In addition to these properties, Microservices have a similarities to `UNIX` commands. Both are executable units with a single task scope and can be assembled to build something larger via standard interfaces.
+In the case of `UNIX` commands, the default interfaces are `stdin` and `stdout` or `stderr`, and communication takes place via the `Unix pipes`. In the case of Microservices, an interface can be implemented using various protocols such as `HTTP`, `AMQP`, `gRPC` or `Kafka`, which are supported accordingly by the macro architecture.
+
+
+## What Microservices are not?
+
+In the early days of Microservices there were some misunderstandings and ambiguities around the topic of Microservices. As the term became more and more popular, these misunderstandings and thus the incorrect use became greater.
+
+The following implementations are not Microservices :
+
+* **A simple API to a more complex service that is part of a monolithic application: **   The design and scope of an `API` should be independent of the implementation. In this case, the service would be called a "macro service".
+
+* **A service which is developed using a small amount of code: ** The number of lines of code is irrelevant if the service cannot be deployed and operated independently.
+
+* **A service developed and delivered without testing, deployment, and operational automation** A Microservice architecture supports the delivery and operation of applications in a scalable manner. Without automation, the risk of human error is far too high.
+
+* **A service operated on a "mutable" infrastructure that is patched and updated separately and independently of the software delivery: ** A stable and predictable infrastructure is central to the operation of Microservices. Changes to the underlying operating system or runtime environment that do not use the same rigorous and automated testing and deployment processes used for coding increase the risk of error.
+
+* **A service with dependencies on other services that prevent it from being independently modified and updated: ** Coupling between the services creates a "distributed monolith". Microservices should only have dependencies on other services via clearly defined interfaces and should allow the service implementation to be changed independently.
+
+* **A large, coarse-grained service or a monolithic set of services packaged as Docker containers :**. Containerization alone does not mean Microservices. It is only one possible software packaging and delivery mechanisms. Dockers and other container models are helpful tools for defining a delivery unit (code and its dependencies) for a Microservice, but are not the only option.
+
+* **A Service is provided as an API by another party: ** Regardless of how the service was implemented, if you don't control the implementation, it's "only" a service from the application's point of view.
+
+* **A component, a module, a service over which I have no control over delivery and management: ** To call something a Microservice is a popular way of attracting the attention of customers. The benefits of MSA have a lot to do with the organization and process models that support them. You can't simply buy these benefits with a product, but you can look for a product that embeds seamlessly into an MSA.
+
+* **A published API that can be used internally or externally by an organization :** MSA implementation should be separated from the published interface specification. API consumers should not know or care whether the implementation behind it is based on a Microservices architecture or a more traditional application architecture.
+
+## Advantages of Microservices
+
+Microservices can bring the following advantages:
+
+* **Faster deployment: ** Microservices make deployment lifecycles much more flexible by decoupling development and delivery  so that individual agile teams can practice the process of continuous delivery.
+
+* **Increased deployment flexibility: ** Microservices support the teams in the agile and dynamic further development of applications with reduced risk.
+
+* **More accurate scalability: ** Microservices result in more scalable applications as additional service instances can be deployed at any time to add additional capacity for specific functionalities. In addition, a Microservice can (if required) use a specific technology to perform its task efficiently.
+
+## Challenges
+
+Microservices architectures not only have advantages but also challenges:
+
+* **Increased operation complexity: ** The operation of a system consisting of many Microservices is more complex than the operation of a monolithic application, the reason is that a Microservice system has many more independent units that need to be deployed and monitored independently. This is only feasible if the whole process is as automated as possible.
+* **Microservices must be independent and deployable separately: ** Docker containers provide an important basis for this, but this alone is not enough. Testing must also be separated. If all Microservices had to be tested together, all the advantages of independence would be lost during the test phase.
